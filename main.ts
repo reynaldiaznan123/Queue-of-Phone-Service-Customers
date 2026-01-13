@@ -43,7 +43,7 @@ class Technician {
     return new Promise<Customer>((resolve) => {
       this._isBusy = true;
       let timeout = setTimeout(() => {
-        customer.phoneSeries = this._name;
+        customer.phoneRepairedBy = this._name;
         this._isBusy = false;
         clearTimeout(timeout);
         resolve(customer);
@@ -121,9 +121,6 @@ class ServiceCenter {
       if (!customer) return;
       console.log(`>>> Technician ${technician.name} is repairing ${customer.name} phone. Customer phone is ${customer.phoneSeries} series`)
       technician.repairing(customer).then((result) => {
-        const index = this._customers.findIndex((c) => c.name === result.name);
-        this._customers[index].phoneRepairedBy = technician.name;
-
         console.log(`    DONE: ${technician.name} finished repairing ${customer.name}`);
         if (customers.length <= 0 && this._technicians.every((t) => !t.busy)) {
           this._finished(this._customers);
